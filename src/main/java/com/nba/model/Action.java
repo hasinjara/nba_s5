@@ -1,39 +1,15 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.nba.model;
 
-import java.io.Serializable;
-import java.util.List;
 import jakarta.persistence.*;
 
+import java.util.Objects;
 
-/**
- *
- * @author hasinjara
- */
 @Entity
-@Table(name = "action")
-public class Action implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-    @Id
+public class Action {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id_action")
+    @Id
+    @jakarta.persistence.Column(name = "id_action", nullable = false, length = -1)
     private String idAction;
-    @Column(name = "action")
-    private String action;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idAction")
-    private List<ActionMatchJoueur> actionMatchJoueurList;
-
-    public Action() {
-    }
-
-    public Action(String idAction) {
-        this.idAction = idAction;
-    }
 
     public String getIdAction() {
         return idAction;
@@ -43,6 +19,10 @@ public class Action implements Serializable {
         this.idAction = idAction;
     }
 
+    @Basic
+    @Column(name = "action", nullable = true, length = 50)
+    private String action;
+
     public String getAction() {
         return action;
     }
@@ -51,37 +31,16 @@ public class Action implements Serializable {
         this.action = action;
     }
 
-    public List<ActionMatchJoueur> getActionMatchJoueurList() {
-        return actionMatchJoueurList;
-    }
-
-    public void setActionMatchJoueurList(List<ActionMatchJoueur> actionMatchJoueurList) {
-        this.actionMatchJoueurList = actionMatchJoueurList;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Action action1 = (Action) o;
+        return Objects.equals(idAction, action1.idAction) && Objects.equals(action, action1.action);
     }
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (idAction != null ? idAction.hashCode() : 0);
-        return hash;
+        return Objects.hash(idAction, action);
     }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Action)) {
-            return false;
-        }
-        Action other = (Action) object;
-        if ((this.idAction == null && other.idAction != null) || (this.idAction != null && !this.idAction.equals(other.idAction))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "nbaclasses.Action[ idAction=" + idAction + " ]";
-    }
-    
 }

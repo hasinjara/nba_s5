@@ -1,48 +1,16 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.nba.model;
 
-import java.io.Serializable;
-import java.util.Date;
 import jakarta.persistence.*;
 
-/**
- *
- * @author hasinjara
- */
+import java.sql.Date;
+import java.util.Objects;
+
 @Entity
-@Table(name = "contrat")
-public class Contrat implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-    @Id
+public class Contrat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id_contrat")
+    @Id
+    @jakarta.persistence.Column(name = "id_contrat", nullable = false, length = -1)
     private String idContrat;
-    @Column(name = "numero_joueur")
-    private Integer numeroJoueur;
-    @Column(name = "date_contrat")
-    @Temporal(TemporalType.DATE)
-    private Date dateContrat;
-    @Column(name = "date_fin")
-    @Temporal(TemporalType.DATE)
-    private Date dateFin;
-    @JoinColumn(name = "id_equipe", referencedColumnName = "id_equipe")
-    @ManyToOne
-    private Equipe idEquipe;
-    @JoinColumn(name = "id_joueur", referencedColumnName = "id_joueur")
-    @ManyToOne
-    private Joueur idJoueur;
-
-    public Contrat() {
-    }
-
-    public Contrat(String idContrat) {
-        this.idContrat = idContrat;
-    }
 
     public String getIdContrat() {
         return idContrat;
@@ -52,6 +20,34 @@ public class Contrat implements Serializable {
         this.idContrat = idContrat;
     }
 
+    @Basic
+    @Column(name = "id_joueur", nullable = true, length = -1)
+    private String idJoueur;
+
+    public String getIdJoueur() {
+        return idJoueur;
+    }
+
+    public void setIdJoueur(String idJoueur) {
+        this.idJoueur = idJoueur;
+    }
+
+    @Basic
+    @Column(name = "id_equipe", nullable = true, length = -1)
+    private String idEquipe;
+
+    public String getIdEquipe() {
+        return idEquipe;
+    }
+
+    public void setIdEquipe(String idEquipe) {
+        this.idEquipe = idEquipe;
+    }
+
+    @Basic
+    @Column(name = "numero_joueur", nullable = true)
+    private Integer numeroJoueur;
+
     public Integer getNumeroJoueur() {
         return numeroJoueur;
     }
@@ -59,6 +55,10 @@ public class Contrat implements Serializable {
     public void setNumeroJoueur(Integer numeroJoueur) {
         this.numeroJoueur = numeroJoueur;
     }
+
+    @Basic
+    @Column(name = "date_contrat", nullable = true)
+    private Date dateContrat;
 
     public Date getDateContrat() {
         return dateContrat;
@@ -68,6 +68,10 @@ public class Contrat implements Serializable {
         this.dateContrat = dateContrat;
     }
 
+    @Basic
+    @Column(name = "date_fin", nullable = true)
+    private Date dateFin;
+
     public Date getDateFin() {
         return dateFin;
     }
@@ -76,45 +80,16 @@ public class Contrat implements Serializable {
         this.dateFin = dateFin;
     }
 
-    public Equipe getIdEquipe() {
-        return idEquipe;
-    }
-
-    public void setIdEquipe(Equipe idEquipe) {
-        this.idEquipe = idEquipe;
-    }
-
-    public Joueur getIdJoueur() {
-        return idJoueur;
-    }
-
-    public void setIdJoueur(Joueur idJoueur) {
-        this.idJoueur = idJoueur;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Contrat contrat = (Contrat) o;
+        return Objects.equals(idContrat, contrat.idContrat) && Objects.equals(idJoueur, contrat.idJoueur) && Objects.equals(idEquipe, contrat.idEquipe) && Objects.equals(numeroJoueur, contrat.numeroJoueur) && Objects.equals(dateContrat, contrat.dateContrat) && Objects.equals(dateFin, contrat.dateFin);
     }
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (idContrat != null ? idContrat.hashCode() : 0);
-        return hash;
+        return Objects.hash(idContrat, idJoueur, idEquipe, numeroJoueur, dateContrat, dateFin);
     }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Contrat)) {
-            return false;
-        }
-        Contrat other = (Contrat) object;
-        if ((this.idContrat == null && other.idContrat != null) || (this.idContrat != null && !this.idContrat.equals(other.idContrat))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "nbaclasses.Contrat[ idContrat=" + idContrat + " ]";
-    }
-    
 }

@@ -1,47 +1,15 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.nba.model;
 
-import java.io.Serializable;
-import java.util.List;
 import jakarta.persistence.*;
 
-/**
- *
- * @author hasinjara
- */
+import java.util.Objects;
+
 @Entity
-@Table(name = "equipe")
-@NamedQueries({
-    @NamedQuery(name = "Equipe.findAll", query = "SELECT e FROM Equipe e"),
-    @NamedQuery(name = "Equipe.findByIdEquipe", query = "SELECT e FROM Equipe e WHERE e.idEquipe = :idEquipe"),
-    @NamedQuery(name = "Equipe.findByNom", query = "SELECT e FROM Equipe e WHERE e.nom = :nom")})
-public class Equipe implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-    @Id
+public class Equipe {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id_equipe")
+    @Id
+    @jakarta.persistence.Column(name = "id_equipe", nullable = false, length = -1)
     private String idEquipe;
-    @Column(name = "nom")
-    private String nom;
-    @JoinTable(name = "matchs_fille", joinColumns = {
-        @JoinColumn(name = "id_equipe", referencedColumnName = "id_equipe")}, inverseJoinColumns = {
-        @JoinColumn(name = "id_match", referencedColumnName = "id_match")})
-    @ManyToMany
-    private List<Matchs> matchsList;
-    @OneToMany(mappedBy = "idEquipe")
-    private List<Contrat> contratList;
-
-    public Equipe() {
-    }
-
-    public Equipe(String idEquipe) {
-        this.idEquipe = idEquipe;
-    }
 
     public String getIdEquipe() {
         return idEquipe;
@@ -51,6 +19,10 @@ public class Equipe implements Serializable {
         this.idEquipe = idEquipe;
     }
 
+    @Basic
+    @Column(name = "nom", nullable = true, length = 50)
+    private String nom;
+
     public String getNom() {
         return nom;
     }
@@ -59,45 +31,16 @@ public class Equipe implements Serializable {
         this.nom = nom;
     }
 
-    public List<Matchs> getMatchsList() {
-        return matchsList;
-    }
-
-    public void setMatchsList(List<Matchs> matchsList) {
-        this.matchsList = matchsList;
-    }
-
-    public List<Contrat> getContratList() {
-        return contratList;
-    }
-
-    public void setContratList(List<Contrat> contratList) {
-        this.contratList = contratList;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Equipe equipe = (Equipe) o;
+        return Objects.equals(idEquipe, equipe.idEquipe) && Objects.equals(nom, equipe.nom);
     }
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (idEquipe != null ? idEquipe.hashCode() : 0);
-        return hash;
+        return Objects.hash(idEquipe, nom);
     }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Equipe)) {
-            return false;
-        }
-        Equipe other = (Equipe) object;
-        if ((this.idEquipe == null && other.idEquipe != null) || (this.idEquipe != null && !this.idEquipe.equals(other.idEquipe))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "nbaclasses.Equipe[ idEquipe=" + idEquipe + " ]";
-    }
-    
 }

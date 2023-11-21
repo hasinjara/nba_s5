@@ -1,50 +1,16 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.nba.model;
 
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
 import jakarta.persistence.*;
-/**
- *
- * @author hasinjara
- */
+
+import java.sql.Date;
+import java.util.Objects;
+
 @Entity
-@Table(name = "joueur")
-public class Joueur implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-    @Id
+public class Joueur {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id_joueur")
+    @Id
+    @jakarta.persistence.Column(name = "id_joueur", nullable = false, length = -1)
     private String idJoueur;
-    @Column(name = "nom")
-    private String nom;
-    @Column(name = "dtn")
-    @Temporal(TemporalType.DATE)
-    private Date dtn;
-    @Column(name = "chemin")
-    private String chemin;
-    @JoinTable(name = "joueur_participant_match", joinColumns = {
-        @JoinColumn(name = "id_joueur", referencedColumnName = "id_joueur")}, inverseJoinColumns = {
-        @JoinColumn(name = "id_match", referencedColumnName = "id_match")})
-    @ManyToMany
-    private List<Matchs> matchsList;
-    @OneToMany(mappedBy = "idJoueur")
-    private List<Contrat> contratList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idJoueur")
-    private List<ActionMatchJoueur> actionMatchJoueurList;
-
-    public Joueur() {
-    }
-
-    public Joueur(String idJoueur) {
-        this.idJoueur = idJoueur;
-    }
 
     public String getIdJoueur() {
         return idJoueur;
@@ -54,6 +20,10 @@ public class Joueur implements Serializable {
         this.idJoueur = idJoueur;
     }
 
+    @Basic
+    @Column(name = "nom", nullable = true, length = 50)
+    private String nom;
+
     public String getNom() {
         return nom;
     }
@@ -61,6 +31,10 @@ public class Joueur implements Serializable {
     public void setNom(String nom) {
         this.nom = nom;
     }
+
+    @Basic
+    @Column(name = "dtn", nullable = true)
+    private Date dtn;
 
     public Date getDtn() {
         return dtn;
@@ -70,6 +44,10 @@ public class Joueur implements Serializable {
         this.dtn = dtn;
     }
 
+    @Basic
+    @Column(name = "chemin", nullable = true, length = -1)
+    private String chemin;
+
     public String getChemin() {
         return chemin;
     }
@@ -78,53 +56,16 @@ public class Joueur implements Serializable {
         this.chemin = chemin;
     }
 
-    public List<Matchs> getMatchsList() {
-        return matchsList;
-    }
-
-    public void setMatchsList(List<Matchs> matchsList) {
-        this.matchsList = matchsList;
-    }
-
-    public List<Contrat> getContratList() {
-        return contratList;
-    }
-
-    public void setContratList(List<Contrat> contratList) {
-        this.contratList = contratList;
-    }
-
-    public List<ActionMatchJoueur> getActionMatchJoueurList() {
-        return actionMatchJoueurList;
-    }
-
-    public void setActionMatchJoueurList(List<ActionMatchJoueur> actionMatchJoueurList) {
-        this.actionMatchJoueurList = actionMatchJoueurList;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Joueur joueur = (Joueur) o;
+        return Objects.equals(idJoueur, joueur.idJoueur) && Objects.equals(nom, joueur.nom) && Objects.equals(dtn, joueur.dtn) && Objects.equals(chemin, joueur.chemin);
     }
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (idJoueur != null ? idJoueur.hashCode() : 0);
-        return hash;
+        return Objects.hash(idJoueur, nom, dtn, chemin);
     }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Joueur)) {
-            return false;
-        }
-        Joueur other = (Joueur) object;
-        if ((this.idJoueur == null && other.idJoueur != null) || (this.idJoueur != null && !this.idJoueur.equals(other.idJoueur))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "nbaclasses.Joueur[ idJoueur=" + idJoueur + " ]";
-    }
-    
 }

@@ -1,54 +1,23 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.nba.model;
 
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
 import jakarta.persistence.*;
-/**
- *
- * @author hasinjara
- */
+
+import java.sql.Date;
+import java.sql.Time;
+import java.util.Objects;
+
 @Entity
-@Table(name = "matchs")
-public class Matchs implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-    @Id
+public class Matchs {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id_match")
+    @Id
+    @Column(name = "id_match", nullable = false, length = -1)
     private String idMatch;
-    @Basic(optional = false)
-    @Column(name = "date_match")
-    @Temporal(TemporalType.DATE)
+    @Basic
+    @Column(name = "date_match", nullable = false)
     private Date dateMatch;
-    @Basic(optional = false)
-    @Column(name = "temps")
-    @Temporal(TemporalType.TIME)
-    private Date temps;
-    @ManyToMany(mappedBy = "matchsList")
-    private List<Joueur> joueurList;
-    @ManyToMany(mappedBy = "matchsList")
-    private List<Equipe> equipeList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMatch")
-    private List<ActionMatchJoueur> actionMatchJoueurList;
-
-    public Matchs() {
-    }
-
-    public Matchs(String idMatch) {
-        this.idMatch = idMatch;
-    }
-
-    public Matchs(String idMatch, Date dateMatch, Date temps) {
-        this.idMatch = idMatch;
-        this.dateMatch = dateMatch;
-        this.temps = temps;
-    }
+    @Basic
+    @Column(name = "temps", nullable = false)
+    private Time temps;
 
     public String getIdMatch() {
         return idMatch;
@@ -66,61 +35,26 @@ public class Matchs implements Serializable {
         this.dateMatch = dateMatch;
     }
 
-    public Date getTemps() {
+    public Time getTemps() {
         return temps;
     }
 
-    public void setTemps(Date temps) {
+    public void setTemps(Time temps) {
         this.temps = temps;
     }
 
-    public List<Joueur> getJoueurList() {
-        return joueurList;
-    }
 
-    public void setJoueurList(List<Joueur> joueurList) {
-        this.joueurList = joueurList;
-    }
 
-    public List<Equipe> getEquipeList() {
-        return equipeList;
-    }
-
-    public void setEquipeList(List<Equipe> equipeList) {
-        this.equipeList = equipeList;
-    }
-
-    public List<ActionMatchJoueur> getActionMatchJoueurList() {
-        return actionMatchJoueurList;
-    }
-
-    public void setActionMatchJoueurList(List<ActionMatchJoueur> actionMatchJoueurList) {
-        this.actionMatchJoueurList = actionMatchJoueurList;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Matchs matchs = (Matchs) o;
+        return Objects.equals(idMatch, matchs.idMatch) && Objects.equals(dateMatch, matchs.dateMatch) && Objects.equals(temps, matchs.temps);
     }
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (idMatch != null ? idMatch.hashCode() : 0);
-        return hash;
+        return Objects.hash(idMatch, dateMatch, temps);
     }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Matchs)) {
-            return false;
-        }
-        Matchs other = (Matchs) object;
-        if ((this.idMatch == null && other.idMatch != null) || (this.idMatch != null && !this.idMatch.equals(other.idMatch))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "nbaclasses.Matchs[ idMatch=" + idMatch + " ]";
-    }
-    
 }
