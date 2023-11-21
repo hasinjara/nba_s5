@@ -19,6 +19,18 @@ public class Matchs {
     @Column(name = "temps", nullable = false)
     private Time temps;
 
+
+
+    public Matchs(Date dateMatch, Time temps) {
+        this.dateMatch = dateMatch;
+        this.temps = temps;
+    }
+
+    public Matchs() {
+    }
+
+
+
     public String getIdMatch() {
         return idMatch;
     }

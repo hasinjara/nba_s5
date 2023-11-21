@@ -1,5 +1,6 @@
 package com.nba.model;
 
+import com.nba.repository.MatchsFilleRepository;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -13,6 +14,14 @@ public class MatchsFille {
     @Basic
     @Column(name = "id_equipe", nullable = false, length = -1)
     private String idEquipe;
+
+    public MatchsFille(String idMatch, String idEquipe) {
+        this.idMatch = idMatch;
+        this.idEquipe = idEquipe;
+    }
+
+    public MatchsFille() {
+    }
 
     public String getIdMatch() {
         return idMatch;

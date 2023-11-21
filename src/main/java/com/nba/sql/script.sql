@@ -17,7 +17,7 @@ CREATE TABLE equipe(
 
 create sequence seq_contrat increment by 1 minvalue 1 START 1;
 CREATE TABLE contrat(
-    id_contrat VARCHAR default 'E'||nextval('seq_equipe'),
+    id_contrat VARCHAR default 'C'||nextval('seq_equipe'),
     id_joueur VARCHAR,
     id_equipe VARCHAR,
     numero_joueur int,
@@ -83,3 +83,16 @@ CREATE TABLE joueur_equipe(
    FOREIGN KEY(id_joueur) REFERENCES Joueur(id_joueur),
    FOREIGN KEY(id_equipe) REFERENCES equipe(id_equipe)
 );
+
+create or replace view v_joueur_match as
+select
+    matchs_fille.id_match,
+    contrat.id_equipe,
+    equipe.nom as equipe,
+    joueur.id_joueur,
+    joueur.nom as joueur,
+    contrat.numero_joueur
+from matchs_fille
+         join contrat on matchs_fille.id_equipe = contrat.id_equipe
+         JOIN equipe on contrat.id_equipe = equipe.id_equipe
+         join joueur on joueur.id_joueur = contrat.id_joueur;
