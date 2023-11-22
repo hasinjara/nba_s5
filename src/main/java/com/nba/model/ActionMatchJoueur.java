@@ -81,6 +81,16 @@ public class ActionMatchJoueur {
         this.idJoueur = idJoueur;
     }
 
+    public ActionMatchJoueur() {
+    }
+
+    public ActionMatchJoueur(Double point, String idAction, String idMatch, String idJoueur) {
+        this.point = point;
+        this.idAction = idAction;
+        this.idMatch = idMatch;
+        this.idJoueur = idJoueur;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
